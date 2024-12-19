@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Conversion</title>
+    <style>
+        .container {
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unit Conversion</h1>
+        
+        <div class="form-group">
+            <label for="value">Enter Value:</label>
+            <input 
+                type="number" 
+                name="value" 
+                id="value" 
+                placeholder="Enter a positive number" 
+                min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="fromUnit">From Unit:</label>
+            <select id="fromUnit">
+                <!-- Data storage units -->
+                <option value="byte">Byte</option>
+                <option value="kilobyte">Kilobyte</option>
+                <option value="megabyte">Megabyte</option>
+                <option value="gigabyte">Gigabyte</option>
+                <option value="terabyte">Terabyte</option>
+                <!-- Temperature units -->
+                <option value="celsius">Celsius</option>
+                <option value="fahrenheit">Fahrenheit</option>
+                <option value="kelvin">Kelvin</option>
+                <!-- Length units -->
+                <option value="meter">Meter</option>
+                <option value="kilometer">Kilometer</option>
+                <option value="centimeter">Centimeter</option>
+                <option value="millimeter">Millimeter</option>
+                <option value="mile">Mile</option>
+                <option value="yard">Yard</option>
+                <option value="foot">Foot</option>
+                <option value="inch">Inch</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="toUnit">To Unit:</label>
+            <select id="toUnit">
+                <!-- Data storage units -->
+                <option value="byte">Byte</option>
+                <option value="kilobyte">Kilobyte</option>
+                <option value="megabyte">Megabyte</option>
+                <option value="gigabyte">Gigabyte</option>
+                <option value="terabyte">Terabyte</option>
+                <!-- Temperature units -->
+                <option value="celsius">Celsius</option>
+                <option value="fahrenheit">Fahrenheit</option>
+                <option value="kelvin">Kelvin</option>
+                <!-- Length units -->
+                <option value="meter">Meter</option>
+                <option value="kilometer">Kilometer</option>
+                <option value="centimeter">Centimeter</option>
+                <option value="millimeter">Millimeter</option>
+                <option value="mile">Mile</option>
+                <option value="yard">Yard</option>
+                <option value="foot">Foot</option>
+                <option value="inch">Inch</option>
+            </select>
+        </div>
+
+        <button onclick="convert()">Convert</button>
+
+        <p id="result" class="result"></p>
+    </div>
+
+    <script>
+        function convert() {
+            // Get user input and selected units
+            const value = parseFloat(document.getElementById("value").value.trim());
+            const fromUnit = document.getElementById("fromUnit").value;
+            const toUnit = document.getElementById("toUnit").value;
+
+            // Conversion rates
+            const unitBytes = {
+                byte: 1,
+                kilobyte: 1024,
+                megabyte: 1024 * 1024,
+                gigabyte: 1024 * 1024 * 1024,
+                terabyte: 1024 * 1024 * 1024 * 1024
+            };
+
+            const unitLengths = {
+                meter: 1,
+                kilometer: 1000,
+                centimeter: 0.01,
+                millimeter: 0.001,
+                mile: 1609.34,
+                yard: 0.9144,
+                foot: 0.3048,
+                inch: 0.0254
+            };
+
+            // Input validation
+            if (isNaN(value)){
+                document.getElementById("result").innerText = "Please enter a valid number.";
+                return;
+            }
+
+           
+
+            // Perform conversion based on the selected unit type
+            let convertedValue;
+            if (fromUnit in unitBytes && toUnit in unitBytes) {
+                // Data storage conversion
+                const valueInBytes = value * unitBytes[fromUnit];
+                convertedValue = valueInBytes / unitBytes[toUnit];
+
+            } else if(
+                (fromUnit === "celsius" || fromUnit === "fahrenheit" || fromUnit === "kelvin") &&
+                (toUnit === "celsius" || toUnit === "fahrenheit" || toUnit === "kelvin")
+            ) {
+                // Temperature conversion
+                if (fromUnit === "celsius"){
+                    if (toUnit === "fahrenheit") {
+                        convertedValue = (value * 9 / 5) + 32;
+                    } else if (toUnit === "kelvin") {
+                        convertedValue = value + 273.15;
+                    } else {
+                        convertedValue = value;
+                    }
+                } else if (fromUnit === "fahrenheit") {
+                    if (toUnit === "celsius") {
+                        convertedValue = (value - 32) * 5 / 9;
+                    } else if (toUnit === "kelvin") {
+                        convertedValue = ((value - 32) * 5 / 9) + 273.15;
+                    } else {
+                        convertedValue = value;
+                    }
+                } else if (fromUnit === "kelvin") {
+                    if (toUnit === "celsius") {
+                        convertedValue = value - 273.15;
+                    } else if (toUnit === "fahrenheit") {
+                        convertedValue = ((value - 273.15) * 9 / 5) + 32;
+                    } else {
+                        convertedValue = value;
+                    }
+                }
+
+            } else if (fromUnit in unitLengths && toUnit in unitLengths) {
+                // Length conversion
+                const valueInMeters = value * unitLengths[fromUnit];
+                convertedValue = valueInMeters / unitLengths[toUnit];
+
+            } else {
+                document.getElementById("result").innerText = 
+                    "Conversion between selected units is not supported.";
+                return;
+            }
+
+            // Display the result
+            document.getElementById("result").innerText = 
+                `Result: ${convertedValue.toFixed(2)} ${toUnit}`;
+        }
+    </script>
+</body>
+</html>
