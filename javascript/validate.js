@@ -52,8 +52,8 @@
      select.value = "Select Conversion Type";
  });
 
- // Highlight select when changed
+ /* Highlight select when changed
  select.addEventListener("change", function () {
      select.classList.add("highlight");
      setTimeout(() => select.classList.remove("highlight"), 500);
- });
+ }); */
