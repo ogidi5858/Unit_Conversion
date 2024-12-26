@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unit Conversion</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="Css/stylesheet.css">
    
 </head>
 <body>
     <div class="container">
         <h1>Unit Conversion Tool</h1>
+        <section class="row">
+        <article class="col-12">
         <div id="box">
         <input type="number" id="input-value" placeholder="Enter Value">
         <select id="unit-select">
@@ -24,14 +26,18 @@
             <option value="fahrenheitToCelsius">Fahrenheit to Celsius</option>
             <option value="byteToKilobyte">Bytes to Kilobytes</option>
             <option value="kilobyteToByte">Kilobytes to Bytes</option>
+      
         </select>
         <button id="convert-btn">Convert</button>
         <button id="clear-btn">Clear</button>
         <p id="output" class="output"></p>
     </div>
     </div>
+</article>
+</section>
 
-    <script src="validate.js"> </script>
+    <script src="javascript/validate.js"> </script>
+
 </body>
 </html>
 
